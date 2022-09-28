@@ -8,11 +8,11 @@ const apiVersion = process.env.API_VERSION
 exports.handler = async (event, context) => {
   const data = JSON.parse(event.body)
 
-  const graphql = async (method, gql) => {
+  const graphql = async gql => {
     const res = await fetch(
       `https://${storeUrl}/admin/api/${apiVersion}/graphql.json`,
       {
-        method,
+        method: 'POST',
         headers: {
           'Content-Type': 'application/graphql',
           'X-Shopify-Access-Token': apiKey
@@ -56,11 +56,12 @@ exports.handler = async (event, context) => {
   const customerQuery = `
   {
     customer(${data.customer}) {
-      tags
+      tags,
+      legacyResourceId
     }
   }
   `
-  const customer = await graphql('get', customerQuery)
+  const customer = await graphql(customerQuery)
   console.log(customer)
   const tags = customer.tags.split(',').push(data.wishlist).join(',')
   // Logic goes here
