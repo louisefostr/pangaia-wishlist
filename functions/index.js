@@ -7,7 +7,6 @@ const apiVersion = process.env.API_VERSION
 
 exports.handler = async (event, context) => {
   const data = JSON.parse(event.body)
-  console.log(apiKey)
 
   const put = async (endpoint, data) => {
     const res = await fetch(
