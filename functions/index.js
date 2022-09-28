@@ -8,6 +8,20 @@ const apiVersion = process.env.API_VERSION
 exports.handler = async (event, context) => {
   const data = JSON.parse(event.body)
 
+  const graphql = async (method, gql) => {
+    const res = await fetch(
+      `https://${storeUrl}/admin/api/${apiVersion}/graphql.json`,
+      {
+        method,
+        headers: {
+          'Content-Type': 'application/graphql',
+          'X-Shopify-Access-Token': apiKey
+        },
+        body: gql
+      }
+    )
+    return await res.json()
+  }
   const put = async (endpoint, data) => {
     const res = await fetch(
       `https://${storeUrl}/admin/api/${apiVersion}/${endpoint}`,
@@ -37,8 +51,16 @@ exports.handler = async (event, context) => {
     return await res.json()
   }
 
+  console.log(data)
   console.log('Getting customer...', data.customer)
-  const customer = await get(`customers/${data.customer}.json`)
+  const customerQuery = `
+  {
+    customer(${data.customer}) {
+      tags
+    }
+  }
+  `
+  const customer = await graphql('get', customerQuery)
   console.log(customer)
   const tags = customer.tags.split(',').push(data.wishlist).join(',')
   // Logic goes here
