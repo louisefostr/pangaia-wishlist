@@ -32,7 +32,10 @@ exports.handler = async (event, context) => {
     )
     const res = await fetch(url.href, {
       method: 'GET',
-      headers: { 'X-Shopify-Access-Token': apiKey }
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Access-Token': apiKey
+      }
     })
     return await res.json()
   }
