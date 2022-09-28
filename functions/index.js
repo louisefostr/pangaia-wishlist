@@ -55,7 +55,7 @@ exports.handler = async (event, context) => {
   console.log('Getting customer...', data.customer)
   const customerQuery = `
   {
-    customer(id: ${data.customer}) {
+    customer(id: gid://shopify/Customer/${data.customer}) {
       tags,
       legacyResourceId
     }
