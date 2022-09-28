@@ -55,7 +55,7 @@ exports.handler = async (event, context) => {
   console.log('Getting customer...', data.customer)
   const customerQuery = `
   {
-    customer(${data.customer}) {
+    customer(id: ${data.customer}) {
       tags,
       legacyResourceId
     }
