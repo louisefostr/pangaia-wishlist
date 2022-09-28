@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
 
-const apiKey = process.env.API_KEY
+const apiKey = process.env.API_KEY || ''
 const apiPassword = process.env.API_PASSWORD
 const storeUrl = process.env.STORE_URL
 const apiVersion = process.env.API_VERSION
@@ -10,10 +10,13 @@ exports.handler = async (event, context) => {
 
   const put = async (endpoint, data) => {
     const res = await fetch(
-      `https://${apiKey}:${apiPassword}@${storeUrl}/admin/api/${apiVersion}/${endpoint}`,
+      `https://${storeUrl}/admin/api/${apiVersion}/${endpoint}`,
       {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Access-Token': apiKey
+        },
         body: JSON.stringify(data)
       }
     )
