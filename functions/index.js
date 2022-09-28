@@ -64,7 +64,7 @@ exports.handler = async (event, context) => {
   const customer = await graphql(customerQuery)
   console.log(customer)
   const tags = customer.data.customer.tags
-  tags.push(data.customer)
+  tags.push(data.wishlist)
   console.log(tags)
   // Logic goes here
   await put(`customers/${data.customer}.json`, {
