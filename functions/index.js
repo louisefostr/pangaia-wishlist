@@ -37,6 +37,7 @@ exports.handler = async (event, context) => {
     return await res.json()
   }
 
+  console.log('Getting customer...')
   const customer = await get(`customers/${data.customer}.json`)
   console.log(customer)
   const tags = customer.tags.split(',').push(data.wishlist).join(',')
