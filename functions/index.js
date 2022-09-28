@@ -23,7 +23,7 @@ exports.handler = async (event, context) => {
     return await res.json()
   }
 
-  const get = async (endpoint, data) => {
+  const get = async (endpoint, data = {}) => {
     const url = new URL(
       `https://${storeUrl}/admin/api/${apiVersion}/${endpoint}`
     )
