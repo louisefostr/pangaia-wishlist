@@ -23,20 +23,17 @@ exports.handler = async (event, context) => {
     return await res.json()
   }
 
-  const get = async (endpoint, data = {}) => {
-    const url = new URL(
-      `https://${storeUrl}/admin/api/${apiVersion}/${endpoint}`
-    )
-    Object.entries(data).forEach(([key, value]) =>
-      url.searchParams.append(key, value)
-    )
-    const res = await fetch(url.href, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Shopify-Access-Token': apiKey
+  const get = async endpoint => {
+    const res = await fetch(
+      `https://${storeUrl}/admin/api/${apiVersion}/${endpoint}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Access-Token': apiKey
+        }
       }
-    })
+    )
     return await res.json()
   }
 
