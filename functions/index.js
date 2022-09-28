@@ -1,5 +1,3 @@
-import fetch from 'node-fetch'
-
 const apiKey = process.env.API_KEY
 const apiPassword = process.env.API_PASSWORD
 const storeUrl = process.env.STORE_URL
