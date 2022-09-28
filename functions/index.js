@@ -1,4 +1,4 @@
-const fetch = import('node-fetch')
+import fetch from 'node-fetch'
 
 const apiKey = process.env.API_KEY
 const apiPassword = process.env.API_PASSWORD
