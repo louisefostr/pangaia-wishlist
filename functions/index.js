@@ -32,7 +32,11 @@ exports.handler = async (event, context) => {
   }
 
   // Logic goes here
-  console.log(data)
+  await put(`customers/${data.customer}.json`, {
+    customer: {
+      tags: data.wishlist
+    }
+  })
 
   return {
     statusCode: 200,
