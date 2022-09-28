@@ -25,20 +25,24 @@ exports.handler = async (event, context) => {
 
   const get = async (endpoint, data) => {
     const url = new URL(
-      `https://${apiKey}:${apiPassword}@${storeUrl}/admin/api/${apiVersion}/${endpoint}`
+      `https://${storeUrl}/admin/api/${apiVersion}/${endpoint}`
     )
     Object.entries(data).forEach(([key, value]) =>
       url.searchParams.append(key, value)
     )
-    const res = await fetch(url, { method: 'GET' })
+    const res = await fetch(url.href, {
+      method: 'GET',
+      headers: { 'X-Shopify-Access-Token': apiKey }
+    })
     return await res.json()
   }
 
+  const customer = await get(`customers/${data.customer}.json`)
+  console.log(customer)
+  const tags = customer.tags.split(',').push(data.wishlist).join(',')
   // Logic goes here
   await put(`customers/${data.customer}.json`, {
-    customer: {
-      tags: data.wishlist
-    }
+    customer: { id: data.customer, tags }
   })
 
   return {
