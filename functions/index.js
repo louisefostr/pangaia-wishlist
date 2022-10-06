@@ -63,9 +63,18 @@ exports.handler = async (event, context) => {
   const customer = await graphql(customerQuery)
   console.log(customer)
   const tags = customer.data.customer.tags
-  tags.push(data.wishlist)
   console.log(tags)
   // Logic goes here
+  if (data.action === 'add') {
+    tags.push(data.tag)
+    console.log('tags after add:', tags)
+  }
+
+  if (data.action === 'remove') {
+    tags.splice(tags.indexOf(data.tag), 1)
+    console.log('tags after remove:', tags)
+  }
+
   await put(`customers/${data.customer}.json`, {
     customer: { id: data.customer, tags: tags.join(',') }
   })
