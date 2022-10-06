@@ -36,22 +36,8 @@ exports.handler = async (event, context) => {
     return await res.json()
   }
 
-  const get = async endpoint => {
-    const res = await fetch(
-      `https://${storeUrl}/admin/api/${apiVersion}/${endpoint}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Shopify-Access-Token': apiKey
-        }
-      }
-    )
-    return await res.json()
-  }
-
   console.log(data)
-  console.log('Getting customer...', data.customer)
+
   const customerQuery = `
   {
     customer(id: "gid://shopify/Customer/${data.customer}") {
@@ -61,9 +47,10 @@ exports.handler = async (event, context) => {
   }
   `
   const customer = await graphql(customerQuery)
-  console.log(customer)
   const tags = customer.data.customer.tags
-  console.log(tags)
+
+  console.log('customer tags:', tags)
+
   // Logic goes here
   if (data.action === 'add') {
     tags.push(data.tag)
